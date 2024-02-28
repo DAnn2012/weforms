@@ -1276,7 +1276,7 @@ class Weforms_Forms_Controller extends Weforms_REST_Controller {
         $form          = weforms()->form->get( $form_id );
         $form_settings = $form->get_settings();
         $form_fields   = $form->get_fields();
-        $entry_fields  = $form->prepare_entries( $request );
+        $entry_fields  = $form->prepare_entries( $request['data']['fields'] );
         $entry_fields  = apply_filters( 'weforms_before_entry_submission', $entry_fields, $form, $form_settings, $form_fields );
 
         $entry_id = $this->weforms_api_insert_entry( [
@@ -1616,7 +1616,6 @@ class Weforms_Forms_Controller extends Weforms_REST_Controller {
 
         $response = $this->prepare_response_for_collection( $response );
         $response = rest_ensure_response( $response );
-        $response->header( 'Location', rest_url( sprintf( '/%s/%s/%d/%s/%d', $this->namespace, $this->rest_base, $form->id, 'entries', $entry->id  ) ) );
 
         return $response;
     }
